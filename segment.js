@@ -15,12 +15,14 @@ function intervalMiddle(start, end) {
 class SegmentTree {
   constructor(array) {
     this.tree = new Array(4 * array.length);
+    this.wholeInterval = new ClosedInterval(0, this.tree.length - 1);
+    this.wholeSumIndex = 0;
 
     this.build(
       array,
-      new ClosedInterval(0, this.tree.length - 1),
-      0
-    ); //whole array. sum node is at 0 index
+      this.wholeInterval,
+      this.wholeSumIndex
+    );
   }
 
   private build(array, interval, nodeIndex) {
@@ -38,7 +40,9 @@ class SegmentTree {
   }
 
   closedIntervalSum(start, end) {
+    let queryInterval = new ClosedInterval(start, end);
 
+    return this.sumFromNodes(this.wholeInterval, queryInterval, this.wholeSumIndex);
   }
 
   private sumFromNodes(nodeInterval, queryInterval, nodeIndex) {
@@ -54,6 +58,26 @@ class SegmentTree {
 
     return this.sumFromNodes(nodeInterval.leftHalfInterval, queryInterval, leftChildIndex(nodeIndex)) +
       this.sumFromNodes(nodeInterval.rightHalfInterval, queryInterval, rightChildIndex(nodeIndex));
+  }
+
+  updateValue(index, newValue) {
+    this.updateNodes(this.wholeInterval, index, newValue, this.wholeSumIndex);
+  }
+
+  private updateNodes(nodeInterval, index, newValue, nodeIndex) {
+    if (!nodeInterval.has(index)) return this.tree[nodeIndex];
+
+    if (nodeInterval.isSingleElement() && nodeInterval.start === index) {
+      this.tree[nodeIndex] = newValue;
+
+      return this.tree[nodeIndex];
+    }
+
+    this.tree[nodeIndex] =
+      this.updateNodes(nodeInterval.leftHalfInterval, index, newValue, leftChildIndex(nodeIndex)) +
+      this.updateNodes(nodeInterval.rightHalfInterval, index, newValue, rightChildIndex(nodeIndex));
+
+    return this.tree[nodeIndex];
   }
 
 }

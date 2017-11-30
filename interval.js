@@ -37,6 +37,10 @@ class ClosedInterval {
 
     return this.rightHalf;
   }
+
+  has(element) {
+    return element >= this.start && element <= this.end;
+  }
 }
 
 module.exports = ClosedInterval;

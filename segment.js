@@ -1,0 +1,5 @@
+class SegmentTree {
+  constructor(array) {
+
+  }
+}

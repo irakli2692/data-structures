@@ -8,10 +8,6 @@ function rightChildIndex(index) {
   return index * 2 + 2;
 }
 
-function intervalMiddle(start, end) {
-  return start + Math.floor((end - start) / 2);
-}
-
 class SegmentTree {
   constructor(array) {
     this.tree = new Array(4 * array.length);

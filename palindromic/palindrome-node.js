@@ -31,8 +31,10 @@ class PalindromeNode {
 
     if (previousIndex >= 0 &&
       fullString[previousIndex] === letter) {
-
+      return this.createNodeIfNotExists(letter, index, fullString)
     }
+
+    return this.maxSuffixNode.addLetter(letter, index, fullString)
   }
 
   createNodeIfNotExists(letter, index, fullString) {

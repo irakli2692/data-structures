@@ -37,14 +37,20 @@ class PalindromeNode {
     return this.nextNodesMap.has(letter)
   }
 
-  useLabeledEdgeNode(letter, newStartIndex) {
+  useLabeledEdgeNode(letter, lastIndex) {
     let node = this.nextNodesMap.get(letter)
+
+    let newStartIndex = this.previousIndex(lastIndex)
 
     node.useForNewOccurence(newStartIndex)
   }
 
   registerNewNode(letter, node) {
     this.nextNodesMap.set(letter, node)
+  }
+
+  newNodeText(letter) {
+    return letter + this.text + letter
   }
 
   addLetter(letter, index, fullString) {

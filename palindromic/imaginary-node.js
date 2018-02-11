@@ -12,6 +12,9 @@ const imaginaryNodeObject = {
   useForNewOccurence() {},
   isAppropriateNode() {
     return true
+  },
+  newNodeText(letter) {
+    return letter
   }
 }
 

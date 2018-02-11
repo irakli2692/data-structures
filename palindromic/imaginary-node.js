@@ -15,6 +15,9 @@ const imaginaryNodeObject = {
   },
   newNodeText(letter) {
     return letter
+  },
+  previousIndex(index) {
+    return index
   }
 }
 

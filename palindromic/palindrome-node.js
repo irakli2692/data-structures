@@ -85,3 +85,5 @@ class PalindromeNode {
   }
 
 }
+
+module.exports = PalindromeNode;

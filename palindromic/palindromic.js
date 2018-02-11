@@ -1,11 +1,7 @@
-class PalindromicTreeNode {
-  constructor(nodeText) {
-    
-  }
-}
-
 class PalindromicTree {
   constructor() {
 
   }
 }
+
+module.exports = PalindromicTree;

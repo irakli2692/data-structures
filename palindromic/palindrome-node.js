@@ -26,6 +26,27 @@ class PalindromeNode {
     this.lastStartIndex = newStartIndex
   }
 
+  isAppropriateNode(letter, index, fullString) {
+    let previousIndex = this.previousIndex(index)
+
+    return previousIndex >= 0 &&
+      fullString[previousIndex] === letter
+  }
+
+  hasLabeledEdge(letter) {
+    return this.nextNodesMap.has(letter)
+  }
+
+  useLabeledEdgeNode(letter, newStartIndex) {
+    let node = this.nextNodesMap.get(letter)
+
+    node.useForNewOccurence(newStartIndex)
+  }
+
+  registerNewNode(letter, node) {
+    this.nextNodesMap.set(letter, node)
+  }
+
   addLetter(letter, index, fullString) {
     let previousIndex = this.previousIndex(index)
 

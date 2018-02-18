@@ -62,6 +62,12 @@ class PalindromicTree {
       .map(node => node.occurences)
       .reduce((sum, currentValue) => sum + currentValue, 0)
   }
+
+  get palindromeSubstringIndices() {
+    return this.nodes
+      .map(node => node.startIndices)
+      .reduce((accumulator, indices) => accumulator.concat(indices), [])
+  }
 }
 
 module.exports = PalindromicTree

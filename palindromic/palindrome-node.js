@@ -5,7 +5,6 @@ class PalindromeNode {
     this.startIndices = []
     if (startIndex != null) {
       this.startIndices.push(startIndex)
-      this.lastStartIndex = this.startIndex
     }
 
     this.maxSuffixNode = maxSuffixNode
@@ -22,8 +21,6 @@ class PalindromeNode {
 
   useForNewOccurence(newStartIndex) {
     this.startIndices.push(newStartIndex)
-
-    this.lastStartIndex = newStartIndex
   }
 
   isAppropriateNode(letter, index, fullString) {

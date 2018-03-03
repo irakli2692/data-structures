@@ -12,17 +12,17 @@ class FenwickTree {
   constructor(array) {
     this.tree = new Array(array.length).fill(0);
 
-    this.build(array);
+    this._build(array);
   }
 
-  private build(array) {
+  _build(array) {
     this.tree[0] = array[0];
 
     for (let i = 1; i < this.tree.length; i++) {
       let parentIndex = sumParentIndex(i);
 
       for (let j = parentIndex + 1; j <= i; j++) {
-        this.tree[i] += array[i];
+        this.tree[i] += array[j];
       }
     }
   }
@@ -37,7 +37,7 @@ class FenwickTree {
     return sum;
   }
 
-  closedIntervalsum(start, end) {
+  closedIntervalSum(start, end) {
     return this.sumFromStart(end) - this.sumFromStart(start - 1);
   }
 

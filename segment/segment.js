@@ -11,17 +11,17 @@ function rightChildIndex(index) {
 class SegmentTree {
   constructor(array) {
     this.tree = new Array(4 * array.length);
-    this.wholeInterval = new ClosedInterval(0, this.tree.length - 1);
+    this.wholeInterval = new ClosedInterval(0, array.length - 1);
     this.wholeSumIndex = 0;
 
-    this.build(
+    this._build(
       array,
       this.wholeInterval,
       this.wholeSumIndex
     );
   }
 
-  private build(array, interval, nodeIndex) {
+  _build(array, interval, nodeIndex) {
     if (interval.isSingleElement()) {
       this.tree[nodeIndex] = array[interval.start];
 
@@ -29,8 +29,8 @@ class SegmentTree {
     }
 
     this.tree[nodeIndex] =
-      this.build(array, interval.leftHalfInterval, leftChildIndex(nodeIndex)) +
-      this.build(array, interval.rightHalfInterval, rightChildIndex(nodeIndex));
+      this._build(array, interval.leftHalfInterval, leftChildIndex(nodeIndex)) +
+      this._build(array, interval.rightHalfInterval, rightChildIndex(nodeIndex));
 
     return this.tree[nodeIndex];
   }
@@ -38,29 +38,29 @@ class SegmentTree {
   closedIntervalSum(start, end) {
     let queryInterval = new ClosedInterval(start, end);
 
-    return this.sumFromNodes(this.wholeInterval, queryInterval, this.wholeSumIndex);
+    return this._sumFromNodes(this.wholeInterval, queryInterval, this.wholeSumIndex);
   }
 
-  private sumFromNodes(nodeInterval, queryInterval, nodeIndex) {
-    if (queryInterval.isInside(nodeInterval)) {
+  _sumFromNodes(nodeInterval, queryInterval, nodeIndex) {
+    if (nodeInterval.isInside(queryInterval)) {
       return this.tree[nodeIndex];
     }
 
-    if (queryInterval.isOutside(nodeInterval)) {
+    if (nodeInterval.isOutside(queryInterval)) {
       return 0;
     }
 
     // query interval is partially inside node interval
 
-    return this.sumFromNodes(nodeInterval.leftHalfInterval, queryInterval, leftChildIndex(nodeIndex)) +
-      this.sumFromNodes(nodeInterval.rightHalfInterval, queryInterval, rightChildIndex(nodeIndex));
+    return this._sumFromNodes(nodeInterval.leftHalfInterval, queryInterval, leftChildIndex(nodeIndex)) +
+      this._sumFromNodes(nodeInterval.rightHalfInterval, queryInterval, rightChildIndex(nodeIndex));
   }
 
   updateValue(index, newValue) {
-    this.updateNodes(this.wholeInterval, index, newValue, this.wholeSumIndex);
+    this._updateNodes(this.wholeInterval, index, newValue, this.wholeSumIndex);
   }
 
-  private updateNodes(nodeInterval, index, newValue, nodeIndex) {
+  _updateNodes(nodeInterval, index, newValue, nodeIndex) {
     if (!nodeInterval.has(index)) return this.tree[nodeIndex];
 
     if (nodeInterval.isSingleElement() && nodeInterval.start === index) {
@@ -70,8 +70,8 @@ class SegmentTree {
     }
 
     this.tree[nodeIndex] =
-      this.updateNodes(nodeInterval.leftHalfInterval, index, newValue, leftChildIndex(nodeIndex)) +
-      this.updateNodes(nodeInterval.rightHalfInterval, index, newValue, rightChildIndex(nodeIndex));
+      this._updateNodes(nodeInterval.leftHalfInterval, index, newValue, leftChildIndex(nodeIndex)) +
+      this._updateNodes(nodeInterval.rightHalfInterval, index, newValue, rightChildIndex(nodeIndex));
 
     return this.tree[nodeIndex];
   }

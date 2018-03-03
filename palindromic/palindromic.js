@@ -65,7 +65,9 @@ class PalindromicTree {
 
   get palindromeSubstringIndices() {
     return this.nodes
-      .map(node => node.startIndices)
+      .map(node => {
+        return node.startIndices.map(index => [index, index + node.length])
+      })
       .reduce((accumulator, indices) => accumulator.concat(indices), [])
   }
 }

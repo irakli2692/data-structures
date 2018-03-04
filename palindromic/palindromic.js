@@ -33,13 +33,24 @@ class PalindromicTree {
         continue
       }
 
-      let suffixNode = this.getNextAppropriateNode(node.maxSuffixNode, letter, i)
+      let suffixNode
+
+      if (node.length < 0) {
+        suffixNode = zeroNode
+      } else {
+        let oldSuffixNode = this.getNextAppropriateNode(node.maxSuffixNode, letter, i)
+
+        oldSuffixNode.useLabeledEdgeNode(letter, i)
+
+        suffixNode = oldSuffixNode.getLabeledEdgeNode(letter)
+      }
 
       let newText = node.newNodeText(letter)
       let startIndex = node.previousIndex(i)
       this.currentNode = new PalindromeNode(newText, startIndex, suffixNode)
 
       this.nodes.push(this.currentNode)
+      node.registerNewNode(letter, this.currentNode)
     }
   }
 

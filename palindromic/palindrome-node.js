@@ -39,7 +39,19 @@ class PalindromeNode {
 
     let newStartIndex = this.previousIndex(lastIndex)
 
-    node.useForNewOccurence(newStartIndex)
+    let item = node
+    let startIndex = newStartIndex
+
+    while (item.length > 0) {
+      item.useForNewOccurence(startIndex)
+
+      item = item.maxSuffixNode
+      startIndex = lastIndex - item.length + 1 // suffix's new start index
+    }
+  }
+
+  getLabeledEdgeNode(letter) {
+    return this.nextNodesMap.get(letter)
   }
 
   registerNewNode(letter, node) {
